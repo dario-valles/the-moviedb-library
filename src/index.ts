@@ -1,4 +1,10 @@
-const fetch = require('node-fetch');
+import fetch from 'node-fetch';
+
+export interface Token {
+  expires_at: string;
+  request_token: string;
+  success: boolean;
+}
 
 export interface Token {
   success: boolean;
@@ -7,105 +13,93 @@ export interface Token {
 }
 
 export default class MovieDB {
-  apiKey: string;
-  baseURL: string;
-  token: Token;
-  sessionId: string;
-  userId: number;
+  public apiKey: string;
+  public baseURL: string;
+  public token: Token;
+  public sessionId: string;
+  public userId: number;
 
   constructor(apiKey: string, baseURL = 'https://api.themoviedb.org/3') {
-    if (!apiKey) throw Error('Wrong API Key');
+    if (!apiKey) {
+      throw Error('Wrong API Key');
+    }
     this.apiKey = apiKey;
     this.baseURL = baseURL;
     this.token = {
-      success: false,
       expires_at: '',
-      request_token: ''
+      request_token: '',
+      success: false,
     };
     (this.sessionId = ''), (this.userId = 0);
   }
 
-  async requestToken() {
-    const token = await this.retriveData(
-      `${this.baseURL}/authentication/token/new?api_key=${this.apiKey}`
-    );
+  public async requestToken() {
+    const token = await this.retriveData(`${this.baseURL}/authentication/token/new?api_key=${this.apiKey}`);
     this.token = token;
     return this.token.request_token;
   }
 
-  async discoverPopularMovies() {
+  public async discoverPopularMovies() {
     const movies = await this.retriveData(
-      `${this.baseURL}/discover/movie?api_key=${
-        this.apiKey
-      }&sort_by=popularity.desc`
+      `${this.baseURL}/discover/movie?api_key=${this.apiKey}&sort_by=popularity.desc`,
     );
     return movies;
   }
 
-  async getMovieDetails(id: number) {
-    const movie = await this.retriveData(
-      `${this.baseURL}/movie/${id}?api_key=${this.apiKey}`
-    );
+  public async getMovieDetails(id: number) {
+    const movie = await this.retriveData(`${this.baseURL}/movie/${id}?api_key=${this.apiKey}`);
     return movie;
   }
 
-  async getUserDetails() {
+  public async getUserDetails() {
     const userDetails = await this.retriveData(
-      `${this.baseURL}/account?api_key=${this.apiKey}&&session_id=${
-        this.sessionId
-      }`
+      `${this.baseURL}/account?api_key=${this.apiKey}&&session_id=${this.sessionId}`,
     );
     this.userId = userDetails.id;
     return userDetails;
   }
 
-  async getUserFavorites() {
+  public async getUserFavorites() {
     const userFavorites = await this.retriveData(
-      `${this.baseURL}/account/${this.userId}/favorite/movies?api_key=${
-        this.apiKey
-      }&session_id=${this.sessionId}`
+      `${this.baseURL}/account/${this.userId}/favorite/movies?api_key=${this.apiKey}&session_id=${this.sessionId}`,
     );
     return userFavorites;
   }
 
-  async getUserLists() {
+  public async getUserLists() {
     const userLists = await this.retriveData(
-      `${this.baseURL}/account/${this.userId}/lists?api_key=${
-        this.apiKey
-      }&session_id=${this.sessionId}`
+      `${this.baseURL}/account/${this.userId}/lists?api_key=${this.apiKey}&session_id=${this.sessionId}`,
     );
     return userLists;
   }
 
-  async favoriteMovie(id: number, favorite: boolean) {
+  public async favoriteMovie(id: number, favorite: boolean) {
     const result = await this.postData(
       `${this.baseURL}/account/${this.userId}/favorite?api_key=${this.apiKey}`,
-      JSON.stringify({ media_type: 'movie', media_id: id, favorite })
+      JSON.stringify({ media_type: 'movie', media_id: id, favorite }),
     );
-    console.log(result);
   }
 
-  async requestSession(userToken: string) {
+  public async requestSession(userToken: string) {
     const session = await this.postData(
       `${this.baseURL}/authentication/session/new?api_key=${this.apiKey}`,
-      JSON.stringify({ request_token: userToken })
+      JSON.stringify({ request_token: userToken }),
     );
     this.sessionId = session.session_id;
     return this.sessionId;
   }
 
-  async postData(url: string, body: any) {
-    console.log(JSON.stringify(body));
+  public async postData(url: string, body: any) {
     const result = await fetch(url, {
-      method: 'post',
       body,
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
+      method: 'post',
     });
     const resultJson = await result.json();
     return resultJson;
   }
 
-  async retriveData(url: string) {
+  public async retriveData(url: string) {
     const result = await fetch(url);
     const resultJson = await result.json();
     return resultJson;
