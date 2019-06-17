@@ -3,9 +3,9 @@
   "version": "1.0.1",
   "description": "",
   "main": "index.js",
-  "bulild": "tsc",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "Dario Valles",
