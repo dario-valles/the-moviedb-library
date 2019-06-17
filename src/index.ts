@@ -1,4 +1,4 @@
-import fetch = require('node-fetch');
+import fetch from 'node-fetch';
 
 export interface Token {
   expires_at: string;
