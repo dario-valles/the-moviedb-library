@@ -1,1 +1,1 @@
-# Tinby lib for The movie Database
+# Tiny library for The movie Database
