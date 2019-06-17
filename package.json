@@ -1,0 +1,22 @@
+{
+  "name": "moviedatabaselibrary",
+  "version": "1.0.1",
+  "description": "",
+  "main": "index.js",
+  "bulild": "tsc",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Dario Valles",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^12.0.8",
+    "@types/node-fetch": "^2.3.6",
+    "fetch": "^1.1.0",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "typescript": "^3.5.2"
+  }
+}
