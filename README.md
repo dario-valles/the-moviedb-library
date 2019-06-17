@@ -1,7 +1,7 @@
 # Tiny library for The movie Database
 
 ``` typescript
-// Mehtods aviable
+// Methods available
 
   requestToken()
 
