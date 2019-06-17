@@ -1,13 +1,15 @@
 const fetch = require('node-fetch');
 
+export interface Token {
+  success: boolean;
+  expires_at: string;
+  request_token: string;
+}
+
 export default class MovieDB {
   apiKey: string;
   baseURL: string;
-  token: {
-    success: boolean;
-    expires_at: string;
-    request_token: string;
-  };
+  token: Token;
   sessionId: string;
   userId: number;
 
@@ -15,6 +17,12 @@ export default class MovieDB {
     if (!apiKey) throw Error('Wrong API Key');
     this.apiKey = apiKey;
     this.baseURL = baseURL;
+    this.token = {
+      success: false,
+      expires_at: '',
+      request_token: ''
+    };
+    (this.sessionId = ''), (this.userId = 0);
   }
 
   async requestToken() {
@@ -86,7 +94,7 @@ export default class MovieDB {
     return this.sessionId;
   }
 
-  async postData(url: string, body = null) {
+  async postData(url: string, body: any) {
     console.log(JSON.stringify(body));
     const result = await fetch(url, {
       method: 'post',
