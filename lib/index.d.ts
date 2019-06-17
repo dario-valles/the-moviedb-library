@@ -1,4 +1,9 @@
 export interface Token {
+    expires_at: string;
+    request_token: string;
+    success: boolean;
+}
+export interface Token {
     success: boolean;
     expires_at: string;
     request_token: string;
