@@ -1,13 +1,24 @@
 {
   "name": "moviedatabaselibrary",
   "version": "1.0.1",
-  "description": "",
-  "main": "index.js",
+  "description": "Small library for The Movie Database",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc"
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+    "lint": "tslint -p tsconfig.json",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
-  "keywords": [],
+  "keywords": [
+    "movie",
+    "movie database"
+  ],
   "author": "Dario Valles",
   "license": "ISC",
   "dependencies": {
@@ -17,11 +28,17 @@
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
+    "prettier": "^1.18.2",
+    "tslint": "^5.17.0",
+    "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.5.2"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/dario-valles/the-moviedb-library.git"
   },
-  "homepage": "https://github.com/dario-valles/the-moviedb-library"
+  "homepage": "https://github.com/dario-valles/the-moviedb-library",
+  "files": [
+    "lib/**/*"
+  ]
 }
